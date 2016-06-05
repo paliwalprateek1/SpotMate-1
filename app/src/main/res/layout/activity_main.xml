@@ -46,4 +46,12 @@
         android:layout_centerHorizontal="true"
         style="@style/Base.TextAppearance.AppCompat.Widget.Switch"
         android:background="@color/switch_thumb_disabled_material_dark" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
