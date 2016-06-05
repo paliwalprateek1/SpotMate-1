@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 if(user.getText().toString().equals("alex") && passwd.getText().toString().equals("newyork")){
-                    Intent i=new Intent(MainActivity.this, user.class);
+                    Intent i=new Intent(MainActivity.this, home.class);
                     startActivity(i);
                 }
                 else
