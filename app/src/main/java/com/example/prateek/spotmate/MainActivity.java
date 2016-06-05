@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if(name.equals("pandey") && key.equals("ayush")){
+                if(user.getText().toString().equals("alex") && passwd.getText().toString().equals("newyork")){
                     Intent i=new Intent(MainActivity.this, user.class);
                     startActivity(i);
                 }
