@@ -10,8 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.prateek.spotmate.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="250sp"
+        android:layout_height="250sp"
+        android:src="@drawable/icon"
+        android:layout_marginLeft="50sp"/>
 </RelativeLayout>
