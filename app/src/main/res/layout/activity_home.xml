@@ -7,5 +7,10 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.prateek.spotmate.home">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Just a Check!!! Awaaz aa rhi hai aapko??"/>
+
 
 </RelativeLayout>
