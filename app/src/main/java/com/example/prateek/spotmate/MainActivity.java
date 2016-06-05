@@ -9,25 +9,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText user;
     EditText passwd;
-    Button login;
-    String name;
-    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+/**
+ * This piece of code is executed when the user clicks on the new user icon.
+ */
+        ImageButton reg=(ImageButton)findViewById(R.id.newUser);
+        reg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent userReg=new Intent(MainActivity.this, register.class);
+                startActivity(userReg);
+            }
+        });
 
         user=(EditText)findViewById(R.id.usr);
-        name=user.getText().toString();
         passwd=(EditText)findViewById(R.id.pass);
-        key= passwd.getText().toString();
-        login=(Button)findViewById(R.id.login_button);
+        Button login=(Button)findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                     Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 
