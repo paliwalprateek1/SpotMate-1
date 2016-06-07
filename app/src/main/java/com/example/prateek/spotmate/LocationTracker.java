@@ -9,17 +9,21 @@ import android.location.LocationManager;
 /**
  * Created by nilesh on 7/6/16.
  */
-public class LocationTracker extends Service implements LocationListener {
-    /**
-     * A function to check network availability;
-     * @return
-     */
-    boolean isLocationEnabled(){
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
+public class LocationTracker{
 
-        }
-
+//    private LocationManager locationManager;
+//    /**
+//     * A function to check network availability;
+//     * @return
+//     */
+//    boolean isLocationEnabled(){
+//
+//
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//    }
+//
+//        }
+//
 
 }
