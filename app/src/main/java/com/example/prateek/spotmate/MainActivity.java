@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
                 else
-                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Authentication Failed!!\n Please Try Again!", Toast.LENGTH_SHORT).show();
             }
 
         });
