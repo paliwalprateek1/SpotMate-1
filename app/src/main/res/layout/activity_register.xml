@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.example.prateek.spotmate.home">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="30sp"
+        android:paddingTop="10sp"
+        android:text="New User"
+        android:textAllCaps="true"
+        android:textColor="#424242"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="350sp"
+        android:layout_height="60sp"
+        android:layout_marginLeft="10sp"
+        android:hint="Name"
+        android:paddingLeft="10sp"
+        android:textSize="23sp"
+        android:typeface="normal"
+        />
+
+    <EditText
+        android:id="@+id/uid"
+        android:layout_width="350sp"
+        android:layout_height="60sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="5sp"
+        android:hint="Username"
+        android:paddingLeft="10sp"
+        android:textSize="23sp"
+        android:typeface="normal" />
+
+    <EditText
+        android:id="@+id/phno"
+        android:layout_width="350sp"
+        android:layout_height="60sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="5sp"
+        android:hint="Phone Number"
+        android:paddingLeft="10sp"
+        android:textSize="23sp"
+        android:typeface="normal"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="350sp"
+        android:layout_height="60sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="5sp"
+        android:hint="Password"
+        android:paddingLeft="10sp"
+        android:textSize="23sp"
+        android:typeface="normal"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/repass"
+        android:layout_width="350sp"
+        android:layout_height="60sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="5sp"
+        android:hint="Re-enter Password"
+        android:paddingLeft="10sp"
+        android:textSize="23sp"
+        android:typeface="normal"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/reg"
+        android:layout_width="200sp"
+        android:layout_height="50sp"
+        android:text="Register"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="85sp"/>
+</LinearLayout>
