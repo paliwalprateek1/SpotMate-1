@@ -46,9 +46,11 @@ public class Register extends AppCompatActivity {
 
                 if (username.length() == 0 || userid.length() == 0 || phone.length() == 0 || passwd.length() == 0 || repasswd.length() == 0) {
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
-                } else{
-                        Intent reg = new Intent(Register.this, home.class);
-                        startActivity(reg);
+                } else if (passwd.equals(repasswd)) {
+                    Intent reg = new Intent(Register.this, home.class);
+                    startActivity(reg);
+                } else {
+                    Toast.makeText(Register.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
