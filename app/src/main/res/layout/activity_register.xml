@@ -28,8 +28,7 @@
         android:hint="Name"
         android:paddingLeft="10sp"
         android:textSize="23sp"
-        android:typeface="normal"
-        />
+        android:maxLines="1" />
 
     <EditText
         android:id="@+id/uid"
@@ -39,8 +38,7 @@
         android:layout_marginTop="5sp"
         android:hint="Username"
         android:paddingLeft="10sp"
-        android:textSize="23sp"
-        android:typeface="normal" />
+        android:textSize="23sp" />
 
     <EditText
         android:id="@+id/phno"
@@ -51,7 +49,6 @@
         android:hint="Phone Number"
         android:paddingLeft="10sp"
         android:textSize="23sp"
-        android:typeface="normal"
         android:inputType="number" />
 
     <EditText
@@ -63,7 +60,6 @@
         android:hint="Password"
         android:paddingLeft="10sp"
         android:textSize="23sp"
-        android:typeface="normal"
         android:inputType="textPassword" />
 
     <EditText
@@ -75,7 +71,6 @@
         android:hint="Re-enter Password"
         android:paddingLeft="10sp"
         android:textSize="23sp"
-        android:typeface="normal"
         android:inputType="textPassword" />
 
     <Button
@@ -84,5 +79,5 @@
         android:layout_height="50sp"
         android:text="Register"
         android:layout_marginTop="20sp"
-        android:layout_marginLeft="85sp"/>
+        android:layout_marginLeft="85sp" />
 </LinearLayout>
