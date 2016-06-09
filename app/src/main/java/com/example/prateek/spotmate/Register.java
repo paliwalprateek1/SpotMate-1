@@ -53,7 +53,7 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                 }
             }
-        });     
+        });
 
 
     }
