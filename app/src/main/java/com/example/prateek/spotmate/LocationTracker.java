@@ -11,6 +11,8 @@ import android.location.LocationManager;
  */
 public class LocationTracker{
 
+
+
 //    private LocationManager locationManager;
 //    /**
 //     * A function to check network availability;

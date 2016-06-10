@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:hint="Username"
+        android:inputType="textPersonName"
         android:layout_below="@+id/icon"
         android:layout_marginTop="20sp" />
 
@@ -49,7 +50,7 @@
         android:hint="Password"
         android:layout_below="@+id/usr"
         android:layout_marginTop="10sp"
-        android:password="true" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/login_button"
