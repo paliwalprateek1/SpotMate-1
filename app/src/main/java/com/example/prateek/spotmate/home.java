@@ -1,6 +1,7 @@
 package com.example.prateek.spotmate;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class home extends AppCompatActivity {
 
@@ -19,6 +21,13 @@ public class home extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        double lat=28.6129;
+//        double lng=77.2295;
+
+//        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
+//
+//        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+//        startActivity(i);
     }
 
     @Override
@@ -37,8 +46,9 @@ public class home extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            Intent intent = new Intent(this, GetLocationStatus.class);
-            startActivity(intent);
+            Toast.makeText(home.this, "App to ban jaane de Chutiye!", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(this, GetLocationStatus.class);
+//            startActivity(intent);
             return true;
         }
 
