@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        This code executes on login.
+         */
+
         user=(EditText)findViewById(R.id.usr);
         passwd=(EditText)findViewById(R.id.pass);
         Button login=(Button)findViewById(R.id.login_button);
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                test=MD5_hash(passwd.getText().toString());
+                test=MD5_hash(passwd.getText().toString()); // Generate Hash value for the text entered in the Password field.
                 if(user.getText().toString().equals("ayush") && test.equals(password)){
                     Intent i=new Intent(MainActivity.this, home.class);
                     startActivity(i);
@@ -56,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
+    /*
+    This piece of code generates hash value for a text.
+     */
     public String MD5_hash(String input) {
         try {
             // Create MD5 Hash
