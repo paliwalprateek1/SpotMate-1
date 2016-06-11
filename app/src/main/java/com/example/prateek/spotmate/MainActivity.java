@@ -12,10 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText user;
     EditText passwd;
+
+    String password=MD5_hash("pandey");
+    String test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +45,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if(user.getText().toString().equals("ayush") && passwd.getText().toString().equals("pandey")){
+                test=MD5_hash(passwd.getText().toString());
+                if(user.getText().toString().equals("ayush") && test.equals(password)){
                     Intent i=new Intent(MainActivity.this, home.class);
                     startActivity(i);
                 }
                 else
-                    Toast.makeText(MainActivity.this, "Authentication Failed!!\n Please Try Again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, test , Toast.LENGTH_SHORT).show();
             }
 
         });
+    }
+
+    public String MD5_hash(String input) {
+        try {
+            // Create MD5 Hash
+            MessageDigest hash = java.security.MessageDigest.getInstance("MD5");
+            hash.update(input.getBytes());
+            byte hashData[] = hash.digest();
+
+            // Create Hexadecimal Hash String
+            StringBuilder hashVal = new StringBuilder();
+            for (int i=0; i<hashData.length; i++)
+                hashVal.append(Integer.toHexString(0xFF & hashData[i]));
+            return hashVal.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override

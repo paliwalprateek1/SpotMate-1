@@ -12,6 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class home extends AppCompatActivity {
 
     @Override
@@ -23,13 +29,32 @@ public class home extends AppCompatActivity {
 
 //        double lat=28.6129;
 //        double lng=77.2295;
-
+//
 //        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
 //
 //        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
 //        startActivity(i);
-    }
 
+
+    }
+    public String MD5_hash(String input) {
+        try {
+            // Create MD5 Hash
+            MessageDigest hash = java.security.MessageDigest.getInstance("MD5");
+            hash.update(input.getBytes());
+            byte hashData[] = hash.digest();
+
+            // Create Hexadecimal Hash String
+            StringBuilder hashVal = new StringBuilder();
+            for (int i=0; i<hashData.length; i++)
+                hashVal.append(Integer.toHexString(0xFF & hashData[i]));
+            return hashVal.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
