@@ -32,7 +32,7 @@
         android:maxLines="1" />
 
     <EditText
-        android:id="@+id/uid"
+        android:id="@+id/username"
         android:inputType="textPersonName"
         android:layout_width="350sp"
         android:layout_height="60sp"
@@ -43,7 +43,7 @@
         android:textSize="23sp" />
 
     <EditText
-        android:id="@+id/phno"
+        android:id="@+id/mobile"
         android:layout_width="350sp"
         android:layout_height="60sp"
         android:layout_marginLeft="10sp"
@@ -54,7 +54,7 @@
         android:inputType="phone" />
 
     <EditText
-        android:id="@+id/pass"
+        android:id="@+id/password"
         android:layout_width="350sp"
         android:layout_height="60sp"
         android:layout_marginLeft="10sp"
@@ -65,7 +65,7 @@
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/repass"
+        android:id="@+id/repassword"
         android:layout_width="350sp"
         android:layout_height="60sp"
         android:layout_marginLeft="10sp"

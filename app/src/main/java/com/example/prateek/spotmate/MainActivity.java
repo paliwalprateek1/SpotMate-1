@@ -17,8 +17,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText user;
-    EditText passwd;
+    EditText etLogUser;
+    EditText etLogPass;
 
     String password=MD5_hash("pandey");
     String test;
@@ -42,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
         This code executes on login.
          */
 
-        user=(EditText)findViewById(R.id.usr);
-        passwd=(EditText)findViewById(R.id.pass);
+        etLogUser=(EditText)findViewById(R.id.usr);
+        etLogPass=(EditText)findViewById(R.id.pass);
         Button login=(Button)findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
             {
-                test=MD5_hash(passwd.getText().toString()); // Generate Hash value for the text entered in the Password field.
-                if(user.getText().toString().equals("ayush") && test.equals(password)){
+                test=MD5_hash(etLogPass.getText().toString()); // Generate Hash value for the text entered in the Password field.
+                if(etLogUser.getText().toString().equals("ayush") && test.equals(password)){
                     Intent i=new Intent(MainActivity.this, home.class);
                     startActivity(i);
                 }
