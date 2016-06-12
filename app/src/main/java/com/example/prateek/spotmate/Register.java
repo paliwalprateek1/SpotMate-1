@@ -101,6 +101,7 @@ public class Register extends AppCompatActivity {
                 Log.d(name+username+"her", "her");
                 return params;
             }
+
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
