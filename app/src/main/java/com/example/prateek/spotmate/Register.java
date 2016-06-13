@@ -31,6 +31,7 @@ public class Register extends AppCompatActivity {
     String mobile;
     String password;
     String repassword;
+
     public final String SERVER_ADDRESS = "http://spotmate.netau.net/";
 
 
