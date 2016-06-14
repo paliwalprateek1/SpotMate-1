@@ -27,7 +27,6 @@ public class Register extends AppCompatActivity {
     String name, username, mobile, password, repassword;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
