@@ -54,7 +54,7 @@ public class Register extends AppCompatActivity {
                 if (name.length() == 0 || username.length() == 0 || mobile.length() == 0 || password.length() == 0 || repassword.length() == 0) {
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
                 } else if (password.equals(repassword)) {
-                   // password = MD5_hash(password);
+                    password = MD5_hash(password);
                     User user = new User(name, username, mobile, password);
                     registerUser(user);
                     Intent reg = new Intent(Register.this, MainActivity.class);

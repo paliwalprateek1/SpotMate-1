@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map = new HashMap<String,String>();
+                password = MD5_hash(password);
                 map.put("username",username);
                 map.put("password",password);
                 return map;
