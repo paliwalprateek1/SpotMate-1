@@ -59,11 +59,12 @@ public class Register extends AppCompatActivity {
                     registerUser(user);
                     Intent reg = new Intent(Register.this, MainActivity.class);
                     startActivity(reg);
+                    Toast.makeText(Register.this, "Registering", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     Toast.makeText(Register.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(Register.this, "Registering", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

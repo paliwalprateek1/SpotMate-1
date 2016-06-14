@@ -12,11 +12,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class GetLocationStatus extends AppCompatActivity {
+
+    String username;
+
 
     private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
     private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in Milliseconds
     protected LocationManager locationManager;
+    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +49,8 @@ public class GetLocationStatus extends AppCompatActivity {
                 new MyLocationListener()
         );
 
-
+        username = getIntent().getStringExtra("username");
+       // updateLocation("prateek", "paliwal");
         showCurrentLocation();
         finish();
 
@@ -50,6 +66,7 @@ public class GetLocationStatus extends AppCompatActivity {
                     "Current Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
+            updateLocation(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
             Toast.makeText(GetLocationStatus.this, message,
                     Toast.LENGTH_SHORT).show();
         }
@@ -79,5 +96,36 @@ public class GetLocationStatus extends AppCompatActivity {
                     "Provider enabled by the user. GPS turned on",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void updateLocation(final String latitude, final String longitude){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS + "SendLocation.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(GetLocationStatus.this,response,Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(GetLocationStatus.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("latitude",latitude);
+                params.put("longitude", longitude);
+                params.put("username", username);
+                Log.d("user  "+username, "preateek");
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.start();
+        requestQueue.add(stringRequest);
     }
 }

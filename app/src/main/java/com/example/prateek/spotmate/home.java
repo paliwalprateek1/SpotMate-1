@@ -20,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class home extends AppCompatActivity {
     int i = 1;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +28,18 @@ public class home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Toast.makeText(this, "je", Toast.LENGTH_SHORT).show();
+        username = getIntent().getStringExtra("username");
 
-        double lat=28.6129;
-        double lng=77.2295;
 
-        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
 
-        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-        startActivity(i);
+//        double lat=28.6129;
+//        double lng=77.2295;
+//
+//        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
+//
+//        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+//        startActivity(i);
 
 
     }
@@ -73,9 +78,10 @@ public class home extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            Toast.makeText(home.this, "App to ban jaane de Chutiye!", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, GetLocationStatus.class);
-//            startActivity(intent);
+            Intent intent = new Intent();
+            intent.setClass(this, GetLocationStatus.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
             return true;
         }
 

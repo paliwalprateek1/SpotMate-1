@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toast.makeText(this, "5559999995hgvg1", Toast.LENGTH_SHORT).show();
 /**
  * This piece of code is executed when the user clicks on the new user icon.
  */
@@ -57,20 +59,6 @@ public class MainActivity extends AppCompatActivity {
         etLogUser=(EditText)findViewById(R.id.usr);
         etLogPass=(EditText)findViewById(R.id.pass);
         Button login=(Button)findViewById(R.id.login_button);
-       /* login.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v)
-            {
-                test=MD5_hash(etLogPass.getText().toString()); // Generate Hash value for the text entered in the Password field.
-                if(etLogUser.getText().toString().equals("ayush") && test.equals(password)){
-                    Intent i=new Intent(MainActivity.this, home.class);
-                    startActivity(i);
-                }
-                else
-                    Toast.makeText(MainActivity.this,"Paaandey Madarchod" , Toast.LENGTH_SHORT).show();
-            }
-
-        });*/
     }
 
     private void userLogin() {
@@ -83,8 +71,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         if(response.trim().equals("success")){
                             Toast.makeText(MainActivity.this,"Login Succesfull", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, home.class);
+
+                            Intent intent = new Intent();
+                            intent.setClass(MainActivity.this, home.class);
+                            intent.putExtra("username", username);
+                            Log.d("user  "+username, "sdk" );
+
                             startActivity(intent);
+
                         }else{
                             Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
                         }
