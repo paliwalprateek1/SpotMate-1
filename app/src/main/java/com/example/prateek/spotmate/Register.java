@@ -16,27 +16,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
-    EditText etName;
-    EditText etUsername;
-    EditText etMobile;
-    EditText etPassword;
-    EditText etRePass;
-    String name;
-    String username;
-    String mobile;
-    String password;
-    String repassword;
-    public final String SERVER_ADDRESS = "http://spotmate.netau.net/";
+    EditText etName, etUsername, etMobile, etPassword, etRePass;
+    String name, username, mobile, password, repassword;
+    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "9", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "12", Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -61,6 +55,7 @@ public class Register extends AppCompatActivity {
                 if (name.length() == 0 || username.length() == 0 || mobile.length() == 0 || password.length() == 0 || repassword.length() == 0) {
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
                 } else if (password.equals(repassword)) {
+                   // password = MD5_hash(password);
                     User user = new User(name, username, mobile, password);
                     registerUser(user);
                     Intent reg = new Intent(Register.this, MainActivity.class);
@@ -74,8 +69,24 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    public String MD5_hash(String input) {
+        try {
+            // Create MD5 Hash
+            MessageDigest hash = java.security.MessageDigest.getInstance("MD5");
+            hash.update(input.getBytes());
+            byte hashData[] = hash.digest();
 
+            // Create Hexadecimal Hash String
+            StringBuilder hashVal = new StringBuilder();
+            for (int i=0; i<hashData.length; i++)
+                hashVal.append(Integer.toHexString(0xFF & hashData[i]));
+            return hashVal.toString();
 
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     private void registerUser(final User user) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS + "Register.php",
@@ -98,7 +109,6 @@ public class Register extends AppCompatActivity {
                 params.put("username", user.username);
                 params.put("mobile", user.mobile);
                 params.put("password", user.password);
-                Log.d(name+username+"her", "her");
                 return params;
             }
 

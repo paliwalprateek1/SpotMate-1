@@ -57,6 +57,7 @@
         android:layout_width="200sp"
         android:layout_height="50sp"
         android:text="log-in"
+        android:onClick="loginUser"
         android:textSize="20sp"
         android:layout_below="@+id/pass"
         android:layout_marginTop="20sp"

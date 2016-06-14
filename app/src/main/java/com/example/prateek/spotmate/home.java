@@ -19,6 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class home extends AppCompatActivity {
+    int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class home extends AppCompatActivity {
 
 
     }
+
     public String MD5_hash(String input) {
         try {
             // Create MD5 Hash

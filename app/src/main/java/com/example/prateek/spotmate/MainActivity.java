@@ -12,16 +12,28 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText etLogUser;
     EditText etLogPass;
+    String username, password;
 
-    String password=MD5_hash("pandey");
+   // String password=MD5_hash("pandey");
     String test;
+    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         etLogUser=(EditText)findViewById(R.id.usr);
         etLogPass=(EditText)findViewById(R.id.pass);
         Button login=(Button)findViewById(R.id.login_button);
-        login.setOnClickListener(new View.OnClickListener(){
+       /* login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
             {
@@ -55,10 +67,47 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
                 else
-                    Toast.makeText(MainActivity.this, test , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"Paaandey Madarchod" , Toast.LENGTH_SHORT).show();
             }
 
-        });
+        });*/
+    }
+
+    private void userLogin() {
+        username = etLogUser.getText().toString();
+        password = etLogPass.getText().toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS + "Login.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.trim().equals("success")){
+                            Toast.makeText(MainActivity.this,"Login Succesfull", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this, home.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG ).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map = new HashMap<String,String>();
+                map.put("username",username);
+                map.put("password",password);
+                return map;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.start();
+        requestQueue.add(stringRequest);
     }
     /*
     This piece of code generates hash value for a text.
@@ -82,25 +131,7 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void loginUser(View view) {
+        userLogin();
     }
 }
