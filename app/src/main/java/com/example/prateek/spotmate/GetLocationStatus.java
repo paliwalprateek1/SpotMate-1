@@ -50,8 +50,8 @@ public class GetLocationStatus extends AppCompatActivity {
         );
 
         username = getIntent().getStringExtra("username");
-       // updateLocation("prateek", "paliwal");
-        showCurrentLocation();
+        updateLocation("100", "100");
+        //showCurrentLocation();
         finish();
 
 
@@ -70,6 +70,8 @@ public class GetLocationStatus extends AppCompatActivity {
             Toast.makeText(GetLocationStatus.this, message,
                     Toast.LENGTH_SHORT).show();
         }
+        else
+        {Toast.makeText(GetLocationStatus.this, "Location Currently Unavailable",Toast.LENGTH_SHORT).show();}
     }
 
     private class MyLocationListener implements LocationListener {
@@ -118,7 +120,8 @@ public class GetLocationStatus extends AppCompatActivity {
                 params.put("latitude",latitude);
                 params.put("longitude", longitude);
                 params.put("username", username);
-                Log.d("user  "+username, "preateek");
+
+                Log.d("Latitudes= "+latitude, "longitudes= "+ longitude );
                 return params;
             }
 

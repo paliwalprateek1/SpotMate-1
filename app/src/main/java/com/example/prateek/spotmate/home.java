@@ -28,7 +28,7 @@ public class home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Toast.makeText(this, "je", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "jezzz", Toast.LENGTH_SHORT).show();
         username = getIntent().getStringExtra("username");
 
 
