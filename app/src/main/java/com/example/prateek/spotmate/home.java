@@ -28,13 +28,13 @@ public class home extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        double lat=28.6129;
-//        double lng=77.2295;
-//
-//        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
-//
-//        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-//        startActivity(i);
+        double lat=28.6129;
+        double lng=77.2295;
+
+        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
+
+        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+        startActivity(i);
 
 
     }
