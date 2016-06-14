@@ -50,7 +50,7 @@ public class GetLocationStatus extends AppCompatActivity {
         );
 
         username = getIntent().getStringExtra("username");
-        //updateLocation("100", "100");
+        //updatelocation("100", "100");
         showCurrentLocation();
         finish();
 
