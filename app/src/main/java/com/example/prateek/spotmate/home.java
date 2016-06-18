@@ -1,13 +1,18 @@
 package com.example.prateek.spotmate;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ListActivity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +26,9 @@ import android.location.LocationManager;
 import android.location.LocationListener;
 import android.location.LocationProvider;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.math.BigInteger;
@@ -29,23 +36,23 @@ import java.nio.charset.StandardCharsets;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
-public class home extends AppCompatActivity {
+public class home extends Activity {
     int i = 1;
     String username;
     private LocationManager locationManager;
     private LocationListener locationListener;
     Button button;
 
+    ArrayList<String> contact= new ArrayList<String>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Toast.makeText(this, "jezzz", Toast.LENGTH_SHORT).show();
-        username = getIntent().getStringExtra("username");
-*/      button = (Button) findViewById(R.id.button1);
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -84,6 +91,20 @@ public class home extends AppCompatActivity {
             configureButton();
         }
 
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.INTERNET
+                }, 11 );
+                return;
+            }
+        }else{
+            configureButton();
+        }
+
 //
 //        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
 //
@@ -101,8 +122,25 @@ public class home extends AppCompatActivity {
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     configureButton();
                 return;
+            case 11:
+                if(grantResults.length>0 && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                    showResults();
+                return;
 
         }
+    }
+
+    private void showResults(){
+        ContentResolver resolver=getContentResolver();
+        Cursor cursor= resolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            contact.add(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+        }
+
+        ArrayAdapter adapter= new ArrayAdapter<String>(this, R.layout.contact, contact);
+        ListView listview = (ListView) findViewById(R.id.android_list);
+        listview.setAdapter(adapter);
     }
 
     private void configureButton() {

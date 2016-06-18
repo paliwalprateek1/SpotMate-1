@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.example.prateek.spotmate.home">
 
-   <Button
-       android:id="@+id/button1"
-       android:layout_width="200sp"
-       android:layout_height="50sp"
-       android:layout_marginTop="100sp"
-       android:layout_marginLeft="100sp"
-       android:text="Get Co-ordinates"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:text="Contacts"
+        android:textSize="45sp"
+        android:paddingTop="20sp"
+        android:paddingLeft="20sp"
+        android:textColor="#4a148c"
+        android:textStyle="bold">
 
-</android.support.design.widget.CoordinatorLayout>
+    </TextView>>
+<ListView
+      android:id="@+id/android_list"
+      android:layout_height="fill_parent"
+      android:layout_width="fill_parent"
+    >
+
+</ListView>>
+
+</LinearLayout>
