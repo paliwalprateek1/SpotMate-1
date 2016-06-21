@@ -26,6 +26,7 @@ import android.location.LocationManager;
 import android.location.LocationListener;
 import android.location.LocationProvider;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,13 +38,16 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class home extends Activity {
     int i = 1;
-    String username;
+    String username, contactName="", contactPhone="";
+    String phoneArray[], nameArray[];
     private LocationManager locationManager;
     private LocationListener locationListener;
     Button button;
+    ListView lvContact;
 
     ArrayList<String> contact= new ArrayList<String>();
 
@@ -104,12 +108,19 @@ public class home extends Activity {
         }else{
             configureButton();
         }
+        showResults();
 
 //
 //        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
 //
 //        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
 //        startActivity(i);
+
+
+            Intent intent = new Intent();
+            intent.setClass(this, GetLocationStatus.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
 
 
     }
@@ -124,33 +135,51 @@ public class home extends Activity {
                 return;
             case 11:
                 if(grantResults.length>0 && grantResults[1] == PackageManager.PERMISSION_GRANTED)
-                    showResults();
+                    //showResults();
                 return;
 
         }
     }
 
     private void showResults(){
+        lvContact = (ListView)findViewById(R.id.android_list);
         ContentResolver resolver=getContentResolver();
-        Cursor cursor= resolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        Cursor cursor= resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            contact.add(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-        }
+            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-        ArrayAdapter adapter= new ArrayAdapter<String>(this, R.layout.contact, contact);
-        ListView listview = (ListView) findViewById(R.id.android_list);
-        listview.setAdapter(adapter);
+            if(name!=null)
+            {
+                contactName += name +",";
+                contactPhone += phone +",";
+            }
+        }
+        cursor.close();
+        nameArray = contactName.split(",");
+        phoneArray = contactPhone.split(",");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, nameArray);
+        lvContact.setAdapter(adapter);
+        lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String num = phoneArray[position];
+                Toast.makeText(home.this, num, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void configureButton() {
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
+        //button.setOnClickListener(new View.OnClickListener(){
+            //@Override
+          //  public void onClick(View view) {
+                locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
 
-            }
-        });
+
+            //}
+        //});
     }
 
     public String MD5_hash(String input) {
@@ -171,30 +200,4 @@ public class home extends Activity {
         }
         return "";
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.refresh) {
-//            Intent intent = new Intent();
-//            intent.setClass(this, GetLocationStatus.class);
-//            intent.putExtra("username", username);
-//            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
