@@ -111,7 +111,7 @@ public class GetLocationStatus extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(GetLocationStatus.this,error.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(GetLocationStatus.this,error.toString()+"hello prateek",Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override

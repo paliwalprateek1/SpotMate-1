@@ -1,5 +1,6 @@
 package com.example.prateek.spotmate;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class Register extends AppCompatActivity {
     EditText etName, etUsername, etMobile, etPassword, etRePass;
     String name, username, mobile, password, repassword;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,11 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+                progressDialog = new ProgressDialog(Register.this);
+                progressDialog.setMessage("ho raha hai bhai");
+                progressDialog.show();
+
                 name = etName.getText().toString();
                 username = etUsername.getText().toString();
                 mobile = etMobile.getText().toString();
@@ -54,13 +61,15 @@ public class Register extends AppCompatActivity {
                 if (name.length() == 0 || username.length() == 0 || mobile.length() == 0 || password.length() == 0 || repassword.length() == 0) {
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
                 } else if (password.equals(repassword)) {
+
                     password = MD5_hash(password);
                     User user = new User(name, username, mobile, password);
                     registerUser(user);
-                    Intent reg = new Intent(Register.this, MainActivity.class);
-                    startActivity(reg);
+
                     Toast.makeText(Register.this, "Registering", Toast.LENGTH_SHORT).show();
-                    finish();
+                    ///progressDialog.dismiss();
+
+
                 } else {
                     Toast.makeText(Register.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                 }
@@ -94,6 +103,10 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(Register.this,response,Toast.LENGTH_LONG).show();
+                        Intent reg = new Intent(Register.this, MainActivity.class);
+                        startActivity(reg);
+                        finish();
+                        progressDialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
@@ -117,7 +130,6 @@ public class Register extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.start();
         requestQueue.add(stringRequest);
-
     }
 }
 

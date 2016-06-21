@@ -1,5 +1,7 @@
 package com.example.prateek.spotmate;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    ProgressDialog progressDialog;
+
+
+    public MainActivity(){}
+
 
     EditText etLogUser;
     EditText etLogPass;
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "9000", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "052250", Toast.LENGTH_SHORT).show();
 /**
  * This piece of code is executed when the user clicks on the new user icon.
  */
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent userReg=new Intent(MainActivity.this, Register.class);
                 startActivity(userReg);
+                finish();
             }
         });
 
@@ -78,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("user  "+username, "sdk" );
 
                             startActivity(intent);
+                            progressDialog.dismiss();
+
 
                         }else{
                             Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     }
                 },
@@ -127,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginUser(View view) {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("ho raha hai bhai");
+        progressDialog.show();
         userLogin();
     }
 }

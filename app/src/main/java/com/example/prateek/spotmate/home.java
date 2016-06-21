@@ -116,8 +116,9 @@ public class home extends Activity {
 //        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
 //        startActivity(i);
 
+        username = getIntent().getStringExtra("username");
 
-            Intent intent = new Intent();
+        Intent intent = new Intent();
             intent.setClass(this, GetLocationStatus.class);
             intent.putExtra("username", username);
             startActivity(intent);
