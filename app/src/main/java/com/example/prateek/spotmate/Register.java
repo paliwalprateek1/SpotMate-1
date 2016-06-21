@@ -36,10 +36,10 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         etName = (EditText) findViewById(R.id.name);
-        etUsername = (EditText) findViewById(R.id.username);
-        etMobile = (EditText) findViewById(R.id.mobile);
-        etPassword = (EditText) findViewById(R.id.password);
-        etRePass = (EditText) findViewById(R.id.repassword);
+        etUsername = (EditText) findViewById(R.id.uid);
+        etMobile = (EditText) findViewById(R.id.phno);
+        etPassword = (EditText) findViewById(R.id.pass);
+        etRePass = (EditText) findViewById(R.id.repass);
 
 
         Button regist = (Button) findViewById(R.id.reg);
@@ -49,7 +49,7 @@ public class Register extends AppCompatActivity {
 
 
                 progressDialog = new ProgressDialog(Register.this);
-                progressDialog.setMessage("ho raha hai bhai");
+                progressDialog.setMessage("Registering...");
                 progressDialog.show();
 
                 name = etName.getText().toString();
@@ -59,18 +59,20 @@ public class Register extends AppCompatActivity {
                 repassword = etRePass.getText().toString();
 
                 if (name.length() == 0 || username.length() == 0 || mobile.length() == 0 || password.length() == 0 || repassword.length() == 0) {
+                    progressDialog.dismiss();
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
-                } else if (password.equals(repassword)) {
-
+                }
+                else if(mobile.length()!=10) {
+                    Toast.makeText(Register.this, "Please enter a valid Indian phone number", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                else if (password.equals(repassword)) {
                     password = MD5_hash(password);
                     User user = new User(name, username, mobile, password);
                     registerUser(user);
 
-                    Toast.makeText(Register.this, "Registering", Toast.LENGTH_SHORT).show();
-                    ///progressDialog.dismiss();
-
-
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(Register.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                 }
 

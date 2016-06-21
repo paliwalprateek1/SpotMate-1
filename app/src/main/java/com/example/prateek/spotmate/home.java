@@ -150,6 +150,8 @@ public class home extends Activity {
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            if(phone.length()>10)
+            phone= phone.substring(phone.length() - 10);
 
             if(name!=null)
             {

@@ -16,9 +16,14 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,32 +34,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
     ProgressDialog progressDialog;
-
-
-    public MainActivity(){}
-
-
     EditText etLogUser;
     EditText etLogPass;
     String username, password;
 
-   // String password=MD5_hash("pandey");
-    String test;
-    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "052250", Toast.LENGTH_SHORT).show();
-/**
- * This piece of code is executed when the user clicks on the new user icon.
- */
-        ImageButton reg=(ImageButton)findViewById(R.id.newUser);
-        reg.setOnClickListener(new View.OnClickListener(){
+
+        /**
+         * This piece of code is executed when the user clicks on the new user icon.
+         */
+        ImageButton reg = (ImageButton) findViewById(R.id.newUser);
+        reg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Intent userReg=new Intent(MainActivity.this, Register.class);
+            public void onClick(View v) {
+                Intent userReg = new Intent(MainActivity.this, Register.class);
                 startActivity(userReg);
                 finish();
             }
@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
         /*
         This code executes on login.
          */
-
-        etLogUser=(EditText)findViewById(R.id.usr);
-        etLogPass=(EditText)findViewById(R.id.pass);
-        Button login=(Button)findViewById(R.id.login_button);
+        etLogUser = (EditText) findViewById(R.id.usr);
+        etLogPass = (EditText) findViewById(R.id.pass);
+//        Button login = (Button) findViewById(R.id.login_button);
     }
 
     private void userLogin() {
@@ -77,20 +76,21 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response.trim().equals("success")){
-                            Toast.makeText(MainActivity.this,"Login Succesfull", Toast.LENGTH_SHORT).show();
+                        if (response.trim().equals("success")) {
+
+                            Toast.makeText(MainActivity.this, "Login Succesfull", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent();
                             intent.setClass(MainActivity.this, home.class);
                             intent.putExtra("username", username);
-                            Log.d("user  "+username, "sdk" );
+                            Log.d("user  " + username, "sdk");
 
                             startActivity(intent);
                             progressDialog.dismiss();
 
 
-                        }else{
-                            Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Username and Passwords do not match..\n Please contact Nilesh or Prateek to beg for help!!", Toast.LENGTH_LONG).show();
                             progressDialog.dismiss();
                         }
                     }
@@ -98,15 +98,33 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG ).show();
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(MainActivity.this, "Connection Error!!", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        } else if (error instanceof AuthFailureError) {
+                            Toast.makeText(MainActivity.this, "Authentication Failure!!", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(MainActivity.this, "Server Error!!", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(MainActivity.this, "Network Error!!", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                        }
                     }
-                }){
+                }
+        )
+
+        {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map = new HashMap<String,String>();
+                Map<String, String> map = new HashMap<String, String>();
                 password = MD5_hash(password);
-                map.put("username",username);
-                map.put("password",password);
+                map.put("username", username);
+                map.put("password", password);
                 return map;
             }
         };
@@ -115,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.start();
         requestQueue.add(stringRequest);
     }
+
     /*
     This piece of code generates hash value for a text.
      */
@@ -127,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Create Hexadecimal Hash String
             StringBuilder hashVal = new StringBuilder();
-            for (int i=0; i<hashData.length; i++)
+            for (int i = 0; i < hashData.length; i++)
                 hashVal.append(Integer.toHexString(0xFF & hashData[i]));
             return hashVal.toString();
 
@@ -139,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginUser(View view) {
         progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("ho raha hai bhai");
+        progressDialog.setMessage("Logging in..");
         progressDialog.show();
         userLogin();
     }
