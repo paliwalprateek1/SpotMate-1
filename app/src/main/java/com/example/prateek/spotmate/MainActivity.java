@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         } else {
-                            Toast.makeText(MainActivity.this, "Username and Passwords do not match..\n Please contact Nilesh or Prateek to beg for help!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Username and Passwords do not match..\n" +
+                                    " Please contact Nilesh or Prateek to beg for help!!", Toast.LENGTH_LONG).show();
                             progressDialog.dismiss();
                         }
                     }
@@ -161,5 +162,12 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging in..");
         progressDialog.show();
         userLogin();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        etLogPass.setText("");
+        etLogUser.setText("");
+
     }
 }
