@@ -31,7 +31,7 @@ public class Register extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
