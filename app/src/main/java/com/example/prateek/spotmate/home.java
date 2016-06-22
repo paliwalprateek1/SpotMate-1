@@ -20,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.location.LocationManager;
@@ -32,13 +33,32 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class home extends Activity {
     int i = 1;
@@ -48,15 +68,13 @@ public class home extends Activity {
     private LocationListener locationListener;
     Button button;
     ListView lvContact;
-
-    ArrayList<String> contact= new ArrayList<String>();
+    public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -92,7 +110,7 @@ public class home extends Activity {
                 return;
             }
         }else{
-            configureButton();
+            locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
         }
 
 
@@ -106,7 +124,7 @@ public class home extends Activity {
                 return;
             }
         }else{
-            configureButton();
+            locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
         }
         showResults();
 
@@ -123,7 +141,6 @@ public class home extends Activity {
             intent.putExtra("username", username);
             startActivity(intent);
 
-
     }
 
     @Override
@@ -132,7 +149,7 @@ public class home extends Activity {
         switch (requestCode){
             case 10:
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    configureButton();
+                    locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
                 return;
             case 11:
                 if(grantResults.length>0 && grantResults[1] == PackageManager.PERMISSION_GRANTED)
@@ -143,6 +160,7 @@ public class home extends Activity {
     }
 
     private void showResults(){
+
         lvContact = (ListView)findViewById(R.id.android_list);
         ContentResolver resolver=getContentResolver();
         Cursor cursor= resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -151,7 +169,7 @@ public class home extends Activity {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             if(phone.length()>10)
-            phone= phone.substring(phone.length() - 10);
+            phone= phone.substring(phone.length() - 11);
 
             if(name!=null)
             {
@@ -163,26 +181,27 @@ public class home extends Activity {
         nameArray = contactName.split(",");
         phoneArray = contactPhone.split(",");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, nameArray);
-        lvContact.setAdapter(adapter);
-        lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String num = phoneArray[position];
-                Toast.makeText(home.this, num, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
-    private void configureButton() {
-        //button.setOnClickListener(new View.OnClickListener(){
-            //@Override
-          //  public void onClick(View view) {
-                locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
+        for(int i= 0;i<phoneArray.length;i++){
+           // if(verifyContact(phoneArray[i])==true){
 
-
+                // nilesh nilesh nilesh nilesh\
+                //you'll have to make this, I am unable to code it, I am getting some weird errors
+                //if it is true it means that the number is registered, now store both of them with the same index into two new
+                //separate arrays and those arrays will be the one's who have registered
             //}
-        //});
+        }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, nameArray);
+                lvContact.setAdapter(adapter);
+//                lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        String num = verPhoneArray[position];
+//                        Toast.makeText(home.this, num, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+
     }
 
     public String MD5_hash(String input) {
@@ -203,4 +222,49 @@ public class home extends Activity {
         }
         return "";
     }
+    boolean flag;
+    private boolean verifyContact(final String mobile) {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS + "getContacts.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.trim().equals("success")) {
+                            //Toast.makeText(getApplicationContext(), "booywah", Toast.LENGTH_SHORT).show();
+                            flag = true;
+
+                        } else {
+                            flag = false;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                      // Toast.makeText(getApplicationContext(), "error hai bhencho", Toast.LENGTH_SHORT).show();
+                        flag = false;
+                    }
+                }
+        )
+
+        {
+            final String num = mobile;
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("mobile", num);
+                return map;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.start();
+        requestQueue.add(stringRequest);
+        if(flag == true)
+            return true;
+        else
+            return false;
+    }
+
 }
