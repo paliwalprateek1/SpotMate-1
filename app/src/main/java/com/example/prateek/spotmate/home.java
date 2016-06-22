@@ -204,24 +204,7 @@ public class home extends Activity {
 
     }
 
-    public String MD5_hash(String input) {
-        try {
-            // Create MD5 Hash
-            MessageDigest hash = java.security.MessageDigest.getInstance("MD5");
-            hash.update(input.getBytes());
-            byte hashData[] = hash.digest();
 
-            // Create Hexadecimal Hash String
-            StringBuilder hashVal = new StringBuilder();
-            for (int i=0; i<hashData.length; i++)
-                hashVal.append(Integer.toHexString(0xFF & hashData[i]));
-            return hashVal.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
     boolean flag;
     private boolean verifyContact(final String mobile) {
 
