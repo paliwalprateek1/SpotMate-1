@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "test44", Toast.LENGTH_SHORT).show();
 
         /**
          * This piece of code is executed when the user clicks on the new user icon.

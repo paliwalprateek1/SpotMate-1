@@ -59,11 +59,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TooManyListenersException;
 
 public class home extends Activity {
-    int i = 1;
     String username, contactName="", contactPhone="";
-    String phoneArray[], nameArray[];
+    String phoneArray[], nameArray[], verNameArray[];
     private LocationManager locationManager;
     private LocationListener locationListener;
     Button button;
@@ -126,7 +126,8 @@ public class home extends Activity {
         }else{
             locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
         }
-        showResults();
+        //showResults();
+        volleyRequest();
 
 //
 //        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
@@ -159,95 +160,90 @@ public class home extends Activity {
         }
     }
 
+
+
     private void showResults(){
 
-        lvContact = (ListView)findViewById(R.id.android_list);
-        ContentResolver resolver=getContentResolver();
-        Cursor cursor= resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+            lvContact = (ListView) findViewById(R.id.android_list);
+            ContentResolver resolver = getContentResolver();
+            Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                if (phone.length() > 10) {
+                    phone = phone.substring(phone.length() - 10);
+                }
+                System.out.println(name + "==                 " + phone);
+                if(checkNumber(phone)) {
+                    if (name != null) {
+                        contactName += name + ",";
+                        contactPhone += phone + ",";
+                    }
+                }
 
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            if(phone.length()>10)
-            phone= phone.substring(phone.length() - 11);
-
-            if(name!=null)
-            {
-                contactName += name +",";
-                contactPhone += phone +",";
             }
-        }
-        cursor.close();
-        nameArray = contactName.split(",");
-        phoneArray = contactPhone.split(",");
+            System.out.println(contactName);
+            cursor.close();
+            nameArray = contactName.split(",");
+            phoneArray = contactPhone.split(",");
 
 
-        for(int i= 0;i<phoneArray.length;i++){
-           // if(verifyContact(phoneArray[i])==true){
-
-                // nilesh nilesh nilesh nilesh\
-                //you'll have to make this, I am unable to code it, I am getting some weird errors
-                //if it is true it means that the number is registered, now store both of them with the same index into two new
-                //separate arrays and those arrays will be the one's who have registered
-            //}
-        }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, nameArray);
-                lvContact.setAdapter(adapter);
-//                lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        String num = verPhoneArray[position];
-//                        Toast.makeText(home.this, num, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+            ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameArray);
+            lvContact.setAdapter(ad);
+            lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(home.this, phoneArray[position] + "and the " + position, Toast.LENGTH_SHORT).show();
+                }
+            });
 
     }
+    public void volleyRequest() {
 
-
-    boolean flag;
-    private boolean verifyContact(final String mobile) {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS + "getContacts.php",
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, SERVER_ADDRESS + "getContacts.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.trim().equals("success")) {
-                            //Toast.makeText(getApplicationContext(), "booywah", Toast.LENGTH_SHORT).show();
-                            flag = true;
-
-                        } else {
-                            flag = false;
-                        }
+                        System.out.println(response);
+                        int n = response.length();
+                        String str = response.substring(1, n-1);
+                        extractContacts(str);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                      // Toast.makeText(getApplicationContext(), "error hai bhencho", Toast.LENGTH_SHORT).show();
-                        flag = false;
-                    }
-                }
-        )
-
-        {
-            final String num = mobile;
+                }, new Response.ErrorListener() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("mobile", num);
-                return map;
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
             }
-        };
+        });
+        queue.add(stringRequest);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.start();
-        requestQueue.add(stringRequest);
-        if(flag == true)
+    }
+
+    public void extractContacts(String str){
+        verNameArray = str.split(",");
+        int n = verNameArray.length;
+        for (int i = 0;i<n;i++)
+        {
+            int l = verNameArray[i].length();
+            verNameArray[i] = verNameArray[i].substring(1, l-1);
+            System.out.println(verNameArray[i]);
+        }
+        showResults();
+    }
+    public boolean checkNumber(String str){
+        int flag=0;
+        for(int i=0;i<verNameArray.length;i++)
+        {
+            if(str.equals(verNameArray[i])){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag==1){
             return true;
+        }
         else
             return false;
     }
-
 }
