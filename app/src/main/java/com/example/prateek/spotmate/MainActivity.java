@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
                             startActivity(intent);
                             progressDialog.dismiss();
+                            finish();
 
 
                         } else {

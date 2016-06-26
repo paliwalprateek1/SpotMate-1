@@ -31,7 +31,6 @@ public class Register extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -63,7 +62,7 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "None of the fields can be left blank", Toast.LENGTH_SHORT).show();
                 }
                 else if(mobile.length()!=10) {
-                    Toast.makeText(Register.this, "Please enter a valid Indian phone number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
                 else if (password.equals(repassword)) {

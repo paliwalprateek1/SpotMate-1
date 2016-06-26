@@ -66,7 +66,6 @@ public class home extends Activity {
     String phoneArray[], nameArray[], verNameArray[];
     private LocationManager locationManager;
     private LocationListener locationListener;
-    Button button;
     ListView lvContact;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
@@ -110,7 +109,7 @@ public class home extends Activity {
                 return;
             }
         }else{
-            locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
+            locationManager.requestLocationUpdates("gps", 10000, 0, locationListener);
         }
 
 
@@ -124,16 +123,9 @@ public class home extends Activity {
                 return;
             }
         }else{
-            locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
+            locationManager.requestLocationUpdates("gps", 10000, 0, locationListener);
         }
-        //showResults();
         volleyRequest();
-
-//
-//        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng ;
-//
-//        Intent i=new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-//        startActivity(i);
 
         username = getIntent().getStringExtra("username");
 
@@ -150,11 +142,10 @@ public class home extends Activity {
         switch (requestCode){
             case 10:
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    locationManager.requestLocationUpdates("gps", 3600000, 0, locationListener);
+                    locationManager.requestLocationUpdates("gps", 10000, 0, locationListener);
                 return;
             case 11:
                 if(grantResults.length>0 && grantResults[1] == PackageManager.PERMISSION_GRANTED)
-                    //showResults();
                 return;
 
         }
@@ -196,9 +187,12 @@ public class home extends Activity {
                     Toast.makeText(home.this, phoneArray[position] + "and the " + position, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), ShowsLocation.class);
-                    intent.putExtra("number", phoneArray[position]);
-                    startActivity(intent);
 
+                    Bundle extras = new Bundle();
+                    extras.putString("number",phoneArray[position]);
+                    extras.putString("name",nameArray[position]);
+                    intent.putExtras(extras);
+                    startActivity(intent);
                 }
             });
 
