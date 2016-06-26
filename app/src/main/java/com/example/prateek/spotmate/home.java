@@ -194,6 +194,11 @@ public class home extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(home.this, phoneArray[position] + "and the " + position, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(getApplicationContext(), ShowsLocation.class);
+                    intent.putExtra("number", phoneArray[position]);
+                    startActivity(intent);
+
                 }
             });
 
