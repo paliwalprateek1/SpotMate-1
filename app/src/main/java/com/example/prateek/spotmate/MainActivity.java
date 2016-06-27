@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             intent.setClass(MainActivity.this, home.class);
             intent.putExtra("username", username);
             startActivity(intent);
+            finish();
         }
         /**
          * This piece of code is executed when the user clicks on the new user icon.
