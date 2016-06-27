@@ -47,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (StoreSharePreferances.getUserName(MainActivity.this).length()!=0 ||
+                StoreSharePreferances.getUserName(MainActivity.this).length()!=0){
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, home.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
+        }
         /**
          * This piece of code is executed when the user clicks on the new user icon.
          */
@@ -77,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.trim().equals("success")) {
+
+                            StoreSharePreferances.setUserName(MainActivity.this, username);
+                            StoreSharePreferances.setPassword(MainActivity.this, password);
 
                             Toast.makeText(MainActivity.this, "Login Succesfull", Toast.LENGTH_SHORT).show();
 
