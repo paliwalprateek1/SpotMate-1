@@ -174,14 +174,11 @@ public class home extends Activity {
                         contactPhone += phone + ",";
                     }
                 }
-
             }
             System.out.println(contactName);
             cursor.close();
             nameArray = contactName.split(",");
             phoneArray = contactPhone.split(",");
-
-
             ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameArray);
             lvContact.setAdapter(ad);
             lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
