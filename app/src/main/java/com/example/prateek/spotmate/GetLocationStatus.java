@@ -25,10 +25,6 @@ import java.util.Map;
 public class GetLocationStatus extends AppCompatActivity {
 
     String username;
-
-
-    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
-    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 3600000; // in Milliseconds
     protected LocationManager locationManager;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
@@ -37,24 +33,13 @@ public class GetLocationStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Log.d("here", "1");
 
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                MINIMUM_TIME_BETWEEN_UPDATES,
-                MINIMUM_DISTANCE_CHANGE_FOR_UPDATES,
-                new MyLocationListener()
-        );
-
         username = getIntent().getStringExtra("username");
-        //updatelocation("100", "100");
         showCurrentLocation();
         finish();
-
-
     }
 
     protected void showCurrentLocation() {
@@ -70,8 +55,9 @@ public class GetLocationStatus extends AppCompatActivity {
             Toast.makeText(GetLocationStatus.this, message,
                     Toast.LENGTH_SHORT).show();
         }
-        else
-        {Toast.makeText(GetLocationStatus.this, "Location Currently Unavailable",Toast.LENGTH_SHORT).show();}
+        else {
+            Toast.makeText(GetLocationStatus.this, "Location Currently Unavailable",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class MyLocationListener implements LocationListener {
