@@ -3,6 +3,7 @@ package com.example.prateek.spotmate;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -72,6 +73,7 @@ public class home extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -127,7 +129,9 @@ public class home extends Activity {
         }
         volleyRequest();
 
-        username = getIntent().getStringExtra("username");
+        username = StoreSharePreferances.getUserName(getApplicationContext());
+        String s = StoreSharePreferances.getUserName(getApplicationContext());
+        System.out.println(s+"is the username");
 
         Intent intent = new Intent();
             intent.setClass(this, GetLocationStatus.class);
@@ -154,7 +158,6 @@ public class home extends Activity {
 
 
     private void showResults(){
-
             lvContact = (ListView) findViewById(R.id.android_list);
             ContentResolver resolver = getContentResolver();
             Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);

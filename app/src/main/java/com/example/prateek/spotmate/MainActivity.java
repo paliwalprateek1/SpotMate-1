@@ -68,15 +68,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        This code executes on login.
-         */
         etLogUser = (EditText) findViewById(R.id.usr);
         etLogPass = (EditText) findViewById(R.id.pass);
-//        Button login = (Button) findViewById(R.id.login_button);
+
     }
 
     private void userLogin() {
+
         username = etLogUser.getText().toString();
         password = etLogPass.getText().toString();
 
@@ -91,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Login Succesfull", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent();
-                            intent.setClass(MainActivity.this, home.class);
-                            intent.putExtra("username", username);
+                            Intent intent = new Intent(getApplicationContext(), home.class);
+                            //intent.setClass(MainActivity.this, home.class);
+                            //intent.putExtra("username", username);
                             Log.d("user  " + username, "sdk");
 
                             startActivity(intent);

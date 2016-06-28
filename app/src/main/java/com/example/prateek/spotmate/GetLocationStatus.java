@@ -37,7 +37,7 @@ public class GetLocationStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Log.d("here", "1");
@@ -111,7 +111,7 @@ public class GetLocationStatus extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(GetLocationStatus.this,error.toString()+"hello prateek",Toast.LENGTH_LONG).show();
+                        Toast.makeText(GetLocationStatus.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
