@@ -6,3 +6,12 @@
 It is basically an app that gets you location of your friends who are using this application. 
 The app updates your location at regular intervals and fetches it to the other users who use this application
 and have your contact saved in their devices.
+
+##Upcoming Updates
+
+1. Location request-response
+2. Nearby notification
+3. Closest friend(In terma of distance :wink:)
+4. Route to your friend
+
+### Your valuable suggestions are most welcome. 
