@@ -2,14 +2,19 @@ package com.example.prateek.spotmate;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.ListActivity;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.media.audiofx.BassBoost;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,6 +74,9 @@ public class home extends Activity {
     private LocationListener locationListener;
     ListView lvContact;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
+    AlarmManager alarmManager;
+    PendingIntent pendingIntent;
+
 
 
     @Override
@@ -128,15 +136,18 @@ public class home extends Activity {
             locationManager.requestLocationUpdates("gps", 10000, 0, locationListener);
         }
         volleyRequest();
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+//
+//        username = StoreSharePreferances.getUserName(getApplicationContext());
+//        String s = StoreSharePreferances.getUserName(getApplicationContext());
+//        System.out.println(s+"is the username");
 
-        username = StoreSharePreferances.getUserName(getApplicationContext());
-        String s = StoreSharePreferances.getUserName(getApplicationContext());
-        System.out.println(s+"is the username");
-
-        Intent intent = new Intent();
-            intent.setClass(this, GetLocationStatus.class);
-            intent.putExtra("username", username);
-            startActivity(intent);
+//        Intent intent = new Intent();
+//            intent.setClass(this, GetLocationStatus.class);
+//            intent.putExtra("username", username);
+//            startActivity(intent);
+            nowStart();
 
     }
 
@@ -155,7 +166,13 @@ public class home extends Activity {
         }
     }
 
+    public void nowStart(){
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        int interval = 18000000;
 
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        //Toast.makeText(this, "Background Location update has started", Toast.LENGTH_SHORT).show();
+    }
 
     private void showResults(){
             lvContact = (ListView) findViewById(R.id.android_list);
@@ -167,7 +184,7 @@ public class home extends Activity {
                 if (phone.length() > 10) {
                     phone = phone.substring(phone.length() - 10);
                 }
-                System.out.println(name + "==                 " + phone);
+                //System.out.println(name + "==                 " + phone);
                 if(checkNumber(phone)) {
                     if (name != null) {
                         contactName += name + ",";
@@ -184,7 +201,7 @@ public class home extends Activity {
             lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(home.this, phoneArray[position] + "and the " + position, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(home.this, phoneArray[position] + "and the " + position, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), ShowsLocation.class);
 
@@ -197,6 +214,7 @@ public class home extends Activity {
             });
 
     }
+
     public void volleyRequest() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -230,6 +248,7 @@ public class home extends Activity {
         }
         showResults();
     }
+
     public boolean checkNumber(String str){
         int flag=0;
         for(int i=0;i<verNameArray.length;i++)

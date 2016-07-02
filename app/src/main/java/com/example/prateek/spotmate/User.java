@@ -13,8 +13,4 @@ public class User {
         this.password = password;
         this.mobile = mobile;
     }
-
-    public User(String username, String password) {
-        this("",username, "", password);
-    }
 }

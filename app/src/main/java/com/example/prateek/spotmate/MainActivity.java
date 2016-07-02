@@ -1,5 +1,7 @@
 package com.example.prateek.spotmate;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
     EditText etLogPass;
     String username, password;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
 
         if (StoreSharePreferances.getUserName(MainActivity.this).length()!=0 ||
-                StoreSharePreferances.getUserName(MainActivity.this).length()!=0){
+                StoreSharePreferances.getPassword(MainActivity.this).length()!=0){
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, home.class);
             intent.putExtra("username", username);
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         etLogUser = (EditText) findViewById(R.id.usr);
         etLogPass = (EditText) findViewById(R.id.pass);
+
 
     }
 
@@ -145,9 +148,6 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    /*
-    This piece of code generates hash value for a text.
-     */
     public String MD5_hash(String input) {
         try {
             // Create MD5 Hash

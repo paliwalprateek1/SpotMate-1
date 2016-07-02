@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,8 +29,8 @@ public class GetLocationStatus extends AppCompatActivity {
     String username;
 
 
-    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
-    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 3600000; // in Milliseconds
+    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1000; // in Meters
+    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 3600000; //0 in Milliseconds
     protected LocationManager locationManager;
     public final String SERVER_ADDRESS = "http://spotmate.freeoda.com/";
 
@@ -49,12 +51,22 @@ public class GetLocationStatus extends AppCompatActivity {
                 new MyLocationListener()
         );
 
-        username = getIntent().getStringExtra("username");
+        //username = getIntent().getStringExtra("username");
+        username = StoreSharePreferances.getUserName(getApplicationContext());
         //updatelocation("100", "100");
-        showCurrentLocation();
+        if(isNetworkAvailable()){
+            showCurrentLocation();
+        }
         finish();
 
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     protected void showCurrentLocation() {
@@ -105,13 +117,13 @@ public class GetLocationStatus extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(GetLocationStatus.this,response,Toast.LENGTH_LONG).show();
+                        //Toast.makeText(GetLocationStatus.this,response,Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(GetLocationStatus.this,error.toString(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(GetLocationStatus.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
@@ -121,7 +133,8 @@ public class GetLocationStatus extends AppCompatActivity {
                 params.put("longitude", longitude);
                 params.put("username", username);
 
-                Log.d("Latitudes= "+latitude, "longitudes= "+ longitude );
+
+                Log.d("Latitudes= "+latitude+ username, "longitudes= "+ longitude );
                 return params;
             }
 
