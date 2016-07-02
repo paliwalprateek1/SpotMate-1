@@ -168,7 +168,7 @@ public class home extends Activity {
 
     public void nowStart(){
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        int interval = 18000000;
+        int interval = 10800000;
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         //Toast.makeText(this, "Background Location update has started", Toast.LENGTH_SHORT).show();
