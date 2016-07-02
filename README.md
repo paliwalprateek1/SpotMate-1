@@ -11,7 +11,7 @@ and have your contact saved in their devices.
 
 1. Location request-response
 2. Nearby notification
-3. Closest friend(In terma of distance :wink:)
+3. Closest friend(In terms of distance :wink:)
 4. Route to your friend
 
 ### Your valuable suggestions are most welcome. 
